@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '1.2.3'
+}
+
+group 'com.jpmorgan.gwm.spark.etl'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'scala'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+configurations{
+    provided
+}
+
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.scala-lang', name: 'scala-library', version: scalaVersion
+    compile group: 'org.scala-lang', name: 'scala-reflect', version: scalaVersion
+    compile group: 'org.scala-lang', name: 'scala-compiler', version: scalaVersion
+
+    compile group: 'org.apache.spark', name: 'spark-mllib_'+sparkScalaVersion, version: '2.1.0'
+    compile group: 'org.apache.spark', name: 'spark-sql_'+sparkScalaVersion, version: '2.1.0'
+    compile group: 'org.apache.spark', name: 'spark-streaming-flume-assembly_'+sparkScalaVersion, version: '2.1.0'
+    compile group: 'org.apache.spark', name: 'spark-graphx_'+sparkScalaVersion, version: '2.1.0'
+    compile group: 'org.apache.spark', name: 'spark-launcher_'+sparkScalaVersion, version: '2.1.0'
+    compile group: 'org.apache.spark', name: 'spark-catalyst_'+sparkScalaVersion, version: '2.1.0'
+    compile group: 'org.apache.spark', name: 'spark-streaming_'+sparkScalaVersion, version: '2.1.0'
+    compile group: 'org.apache.spark', name: 'spark-core_'+sparkScalaVersion, version: '2.1.0'
+
+    compile group: 'org.slf4j', name:'slf4j-api', version: '1.7.+'
+    compile group: 'ch.qos.logback', name:'logback-classic', version: '1.+'
+
+    compile group: 'com.typesafe', name: 'config', version: typesafeConfigVersion
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

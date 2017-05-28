@@ -28,7 +28,6 @@ object SparkETLPipelineEngineApp extends PipelineLogger{
     val context = PipelineEngineContext(config)
 
     logger.info(s"Spark Context Created")
-
   }
 
 }

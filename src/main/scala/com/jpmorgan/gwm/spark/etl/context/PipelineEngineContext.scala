@@ -9,13 +9,13 @@ import org.apache.spark.sql.SparkSession._
 /**
   * Created by koushiv777 on 5/22/17.
   */
-class PipelineEngineContext(val config:Config) {
-  val sparkConf: SparkConf = getSparkConfiguration()
+class PipelineEngineContext(private val config:Config) {
+  private val sparkConf: SparkConf = getSparkConfiguration()
   val sparkSession: SparkSession = builder().config(sparkConf).getOrCreate()
   val sparkContext: SparkContext = sparkSession.sparkContext
   val sqlContext: SQLContext = sparkSession.sqlContext
 
-  def getSparkConfiguration(): SparkConf ={
+  private def getSparkConfiguration(): SparkConf ={
     val conf = new SparkConf()
     if(config.hasPath(PATH_APPLICATION_NAME)) conf.setAppName(config getString PATH_APPLICATION_NAME)
 

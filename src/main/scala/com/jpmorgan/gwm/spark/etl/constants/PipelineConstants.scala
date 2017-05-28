@@ -10,4 +10,9 @@ object PipelineConstants {
   val PATH_SPARK_CONF_EXECUTOR_MEMORY = "spark.conf.executor.memory"
   val PATH_SPARK_CONF_EXECUTOR_CORES = "spark.conf.executor.cores"
   val PATH_SPARK_CONF_MASTER = "spark.conf.master"
+  val PATH_SQL_FILE_TYPE = "source.sql.file.type"
+  val PATH_SQL_FILE_LOCATION = "source.sql.file.location"
+  val PATH_SQL_LITERAL = "source.sql.literal"
+  val PATH_SOURCE_TYPE = "source.type"
+  val PATH_SOURCE_TABLE = "source.table"
 }

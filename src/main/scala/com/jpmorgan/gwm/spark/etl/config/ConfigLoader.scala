@@ -10,26 +10,26 @@ import scala.reflect.io.File
 /**
   * Created by koushiv777 on 5/21/17.
   */
-class ConfigLoader(val applicationConf: String, workFlowConf: String) extends PipelineLogger{
-  val profilesSys: String = System getProperty PipelineConstants.PIPELINE_PROFILE_PROPERTY
+class ConfigLoader(private val applicationConf: String, private val workFlowConf: String) extends PipelineLogger{
+  private val profilesSys: String = System getProperty PipelineConstants.PIPELINE_PROFILE_PROPERTY
 
-  val applicationConfFile = File(applicationConf)
+  private val applicationConfFile = File(applicationConf)
 
   if(!applicationConfFile.isFile || !applicationConfFile.exists){
     throw PipelineConfigurationException(s"Application Configuration $applicationConf is not a file or it's doesn't exists. Please validate")
   }
   logger.debug(s"Application Configuration found in ${applicationConfFile.path}")
 
-  val applicationConfig: Config = ConfigFactory.parseFile(applicationConfFile.jfile)
+  private val applicationConfig: Config = ConfigFactory.parseFile(applicationConfFile.jfile)
 
-  val workflowConfFile = File(workFlowConf)
+  private val workflowConfFile = File(workFlowConf)
   if(!workflowConfFile.isFile || !workflowConfFile.exists){
     throw PipelineConfigurationException(s"Workflow Configuration $workFlowConf is not a file or it's doesn't exists. Please validate")
   }
 
-  val workflowConfig: Config = ConfigFactory.parseFile(workflowConfFile.jfile)
+  private val workflowConfig: Config = ConfigFactory.parseFile(workflowConfFile.jfile)
 
-  val profileConfigs: Seq[Config] = List()
+  private val profileConfigs: Seq[Config] = List()
   if(profilesSys != null && !profilesSys.isEmpty){
     logger.debug(s"Spark Pipeline Engine Profiles $profilesSys")
     val applicationConfDir = applicationConfFile.path.substring(0, applicationConfFile.path.lastIndexOf(File.separator))
@@ -39,12 +39,12 @@ class ConfigLoader(val applicationConf: String, workFlowConf: String) extends Pi
     profileConfigs ++ profileConfFiles.map(confFile => ConfigFactory.parseFile(confFile.jfile))
   }
 
-  var tempConfig: Config = workflowConfig
+  private var tempConfig: Config = workflowConfig
   profileConfigs.foreach(config => {
     tempConfig = tempConfig.withFallback(config)
   })
 
-  val finalConfig: Config = tempConfig.withFallback(applicationConfig).resolve()
+  private val finalConfig: Config = tempConfig.withFallback(applicationConfig).resolve()
 
   def getPipelineConfig: Config = finalConfig
 }
